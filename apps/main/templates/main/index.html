@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" 
+  href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+  <link rel="stylesheet" type="text/css" 
+  href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+  <title>Ninja Gold</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Ninja Gold</h1>
+    <div class="gold-display">
+      <p>Gold: {{ request.session.gold_count }}</p>
+    </div>
+    <a href="/reset" class='button'>Reset</a>
+    <div class="location-container">
+      <form action="/process/" method="post">
+        {% csrf_token %}
+        <h2>Cave</h2>
+        <p>Earns 5-10 Golds</p>
+        <input type="hidden" name="location" value="cave">
+        <input type="submit" value="Get Golds">
+      </form>
+      <form action="/process/" method="post">
+        {% csrf_token %}
+        <h2>House</h2>
+        <p>Earns 2-5 Golds</p>
+        <input type="hidden" name="location" value="house">
+        <input type="submit" value="Get Golds">
+      </form>
+      <form action="/process/" method="post">
+        {% csrf_token %}
+        <h2>Farm</h2>
+        <p>Earns 10-20 Golds</p>
+        <input type="hidden" name="location" value="farm">
+        <input type="submit" value="Get Golds">
+      </form>
+      <form action="/process/" method="post">
+        {% csrf_token %}
+        <h2>Casino</h2>
+        <p>Earns/Takes 0-50 Golds</p>
+        <input type="hidden" name="location" value="casino">
+        <input type="submit" value="Get Golds">
+      </form>
+    </div>
+    {% if request.session.activities %}
+      <div class="activities">
+        {% for activity in request.session.activities %}
+          <p class="{{ activity.css_class }}">{{ activity.content }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
